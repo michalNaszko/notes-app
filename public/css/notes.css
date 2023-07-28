@@ -1,7 +1,9 @@
 .add {
   width: 84px;
   height: 84px;
-  position: relative;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -66,7 +68,7 @@
   transform: translate(-50%, -50%) rotate(135deg) scaleY(0.76);
 }
 .add:hover {
-  transform: scale(1) rotate(135deg);
+  transform: scale(1.2) rotate(135deg);
   transition: transform 0.4s ease 0.1s;
 }
 .add:hover:before {

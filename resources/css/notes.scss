@@ -2,10 +2,17 @@ $button: #5628EE;
 $icons: #fff;
 $plus: #fff;
 
+// img {
+//     width: 90%; /* takes the 100 % width of its container (.box div)*/
+//     height: 90%; /* takes the 100 % height of its container (.box div)*/
+//   }
+
 .add {
     width: 84px;
     height: 84px;
-    position: relative;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -71,7 +78,7 @@ $plus: #fff;
         transform: translate(-50%, -50%) rotate(135deg) scaleY(.76);
     }
     &:hover {
-        transform: scale(1) rotate(135deg);
+        transform: scale(1.2) rotate(135deg);
         transition: transform .4s ease .1s;
         &:before {
             transform: translate(-50%, -50%) scaleY(.76) scaleX(3);
