@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\SignInRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Note;
 
 
 class SignInController extends Controller
@@ -51,6 +52,7 @@ class SignInController extends Controller
      */
     protected function authenticated(Request $request, $user) 
     {
-        return redirect()->to('notes');
+        return view('notes', ['msg' => Note::all()]);
+        // return redirect()->to('notes')->with('msg', Note::all());
     }
 }

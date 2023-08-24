@@ -51,3 +51,8 @@ body {
     font-size: 3.5rem;
   }
 }
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

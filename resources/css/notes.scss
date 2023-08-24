@@ -1,3 +1,10 @@
+html,
+body,
+main {
+  height: 100%;
+  width: 100%;
+}
+
 $button: #5628EE;
 $icons: #fff;
 $plus: #fff;
@@ -162,7 +169,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #F5F9FF;
+    background: #fff5f8;
     .dribbble {
         position: fixed;
         display: block;

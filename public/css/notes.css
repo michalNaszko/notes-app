@@ -1,3 +1,10 @@
+html,
+body,
+main {
+  height: 100%;
+  width: 100%;
+}
+
 .add {
   width: 84px;
   height: 84px;
@@ -144,7 +151,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #F5F9FF;
+  background: #fff5f8;
 }
 body .dribbble {
   position: fixed;
