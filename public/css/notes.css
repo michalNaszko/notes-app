@@ -151,7 +151,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff5f8;
 }
 body .dribbble {
   position: fixed;
@@ -162,4 +161,12 @@ body .dribbble {
 body .dribbble img {
   display: block;
   height: 28px;
+}
+
+.card-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 15; /* number of lines to show */
+  line-clamp: 15;
+  -webkit-box-orient: vertical;
 }
