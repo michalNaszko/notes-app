@@ -23,9 +23,6 @@
 
   <main>
 
-
-
-
         <div class="container py-1">
             <div class="row" data-masonry='{"percentPosition": true }'>
                 @foreach ($msg as $note)
@@ -44,24 +41,54 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal note view -->
         <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title text-break" id="noteModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 id="note-title" class="modal-title text-break" id="noteModalLabel">Modal title</h5>
+                    <button type="button" onclick="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body text-break">
+                    <div id="note-body" class="modal-body text-break">
                     ...
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" onclick="editText()" class="btn btn-primary">Edit</button>
                     </div>
                 </div>
             </div>
        </div>
+
+        <!-- Modal create note view -->
+        <div class="modal fade" id="createNoteModal" tabindex="-1" aria-labelledby="createNoteModalLabel" aria-hidden="true">
+               
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="notes" method="POST"> 
+                            @csrf <!-- {{ csrf_field() }} -->
+                            <div class="modal-header">
+                            <h5 class="modal-title text-break" id="createNoteModalLabel">
+                                <div class="form-group">
+                                    <textarea name="title" placeholder="Note title" class="form-control" id="titleArea" rows="1"></textarea>
+                                </div>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-break">
+                                <div class="form-group">
+                                    <textarea name="content" placeholder="Note content" class="form-control" id="noteArea" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+        </div>
     
 
     <div class="add">
@@ -70,7 +97,7 @@
                 <use xlink:href="#fileIcon">
             </svg> --}}
         </a>
-        <a href="">
+        <a  data-bs-toggle="modal" data-bs-target="#createNoteModal">
             <svg>
                 <use xlink:href="#plus">
             </svg>
@@ -146,8 +173,27 @@
 <script> 
     function feedModalView(title, content){
         console.log(content);
-        $(".modal-title").text(title); 
-        $(".modal-body").text(content);
+        $("#note-title").text(title); 
+        $("#note-body").text(content);
+    }
+
+    jQuery.fn.changeTag = function (newTag) {
+        var q = this;
+        this.each(function (i, el) {
+            var h = "<" + el.outerHTML.replace(/(<\w+|\w+>)/g, newTag) + ">";
+            try {
+                el.outerHTML = h;
+            } catch (e) {
+                q[i] = jQuery(h)[0];
+            }
+
+        });
+        return this;
+    };
+
+    function editText(){
+        $("#note-title").changeTag("textarea");
+        console.log($("#note-title").prop("tagName"));
     }
 </script>
 

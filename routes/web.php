@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\SignInController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::post('/', [SignInController::class, 'signIn']);
 Route::get('/notes', function () {
     return view('notes');
 })->middleware('auth');
+
+Route::post('/notes', [NoteController::class, 'create']);
 
 Route::get('/signup', [SignUpController::class, 'show']);
 Route::post('/signup', [SignUpController::class, 'signup']);
