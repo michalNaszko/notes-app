@@ -14,14 +14,20 @@ class NoteController extends Controller
     public function create(Request $request)
     {
         // Validate the request...
- 
-        $note = new Note;
+        if ($request->has('noteId')) {
+            Note::where('id', (int)$request->noteId)->update(['title'=>$request->title,
+                                                              'content'=>$request->content]);
+        }
+        else {
+            $note = new Note;
         
-        $note->user_id = Auth::id();
-        $note->title = $request->title;
-        $note->content = $request->content;
+            $note->user_id = Auth::id();
+            $note->title = $request->title;
+            $note->content = $request->content;
 
-        $note->save();
+            $note->save();
+        }
+        
         return view('notes', ['msg' => Note::where('user_id', Auth::id())->get()]);
     }
 }

@@ -31,7 +31,7 @@
                             <div class="card-body">
                                 <h3 class="card-title">{{ $note->title }}</h3>
                                 <p class="card-text" id="{{ $note->id }}">{{ $note->content }}</p>
-                                <button type="button" onclick="feedModalView('{{ $note->title }}','{{ $note->content }}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                <button type="button" onclick="feedModalView('{{ $note->title }}','{{ $note->content }}','{{ $note->id }}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
                                     Show
                                 </button>
                             </div>
@@ -84,6 +84,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit">Save</button>
                             </div>
+                            <div id="editedNoteId"></div>
                         </form>
                     </div>
                 </div>
@@ -97,7 +98,7 @@
                 <use xlink:href="#fileIcon">
             </svg> --}}
         </a>
-        <a  data-bs-toggle="modal" data-bs-target="#createNoteModal">
+        <a  onclick="showCreateNote()">
             <svg>
                 <use xlink:href="#plus">
             </svg>
@@ -170,8 +171,16 @@
 
 </body>
 
-<script> 
-    function feedModalView(title, content){
+<script>
+    var _noteId;
+
+    $("#noteArea").on('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    });
+    
+    function feedModalView(title, content, noteId){
+        _noteId = noteId;
         console.log(content);
         $("#note-title").text(title); 
         $("#note-body").text(content);
@@ -191,9 +200,23 @@
         return this;
     };
 
+    function showCreateNote() {
+        $("#editedNoteId").html('');
+        $("#titleArea").text('');
+        $("#noteArea").text('');
+        $('#createNoteModal').addClass('fade');
+        $('#createNoteModal').modal('show');
+    }
+
     function editText(){
-        $("#note-title").changeTag("textarea");
-        console.log($("#note-title").prop("tagName"));
+        $("#editedNoteId").append(`<input type="hidden" name="noteId" value=${_noteId}/>`);
+
+        $("#titleArea").text($("#note-title").text());
+        $("#noteArea").text($("#note-body").text());
+
+        $('#createNoteModal').removeClass('fade');
+        $('#noteModal').modal('toggle');
+        $('#createNoteModal').modal('show');
     }
 </script>
 
