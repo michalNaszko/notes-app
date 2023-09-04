@@ -175,8 +175,7 @@
     var _noteId;
 
     $("#noteArea").on('input', function() {
-        this.style.height = 'auto';
-        this.style.height = this.scrollHeight + 'px';
+        $(this).height("auto").height($(this)[0].scrollHeight);
     });
     
     function feedModalView(title, content, noteId){
@@ -201,9 +200,10 @@
     };
 
     function showCreateNote() {
+        $("#noteArea").height("initial");
         $("#editedNoteId").html('');
-        $("#titleArea").text('');
-        $("#noteArea").text('');
+        $("#titleArea").val('');
+        $("#noteArea").val('');
         $('#createNoteModal').addClass('fade');
         $('#createNoteModal').modal('show');
     }
@@ -217,6 +217,7 @@
         $('#createNoteModal').removeClass('fade');
         $('#noteModal').modal('toggle');
         $('#createNoteModal').modal('show');
+        $("#noteArea").height("auto").height($("#noteArea")[0].scrollHeight);
     }
 </script>
 
