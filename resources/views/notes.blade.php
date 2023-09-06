@@ -58,7 +58,7 @@
                     ...
                     </div>
                     <div class="modal-footer">
-                    <button type="button" onclick="removeNote()">Delete</button>
+                    <button type="button" onclick="removeNote()" class="btn btn-secondary">Delete</button>
                     <button type="button" onclick="editText()" class="btn btn-primary">Edit</button>
                     </div>
                 </div>
