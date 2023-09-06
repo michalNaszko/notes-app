@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}"> 
   <title>Notes</title>
 
   <link href="css/notes.css" rel="stylesheet">
@@ -24,21 +25,25 @@
   <main>
 
         <div class="container py-1">
-            <div class="row" data-masonry='{"percentPosition": true }'>
-                @foreach ($msg as $note)
-                    <div class="col-sm-4 col-md-3 py-1">
-                        <div class="card border-primary">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ $note->title }}</h3>
-                                <p class="card-text" id="{{ $note->id }}">{{ $note->content }}</p>
-                                <button type="button" onclick="feedModalView('{{ $note->title }}','{{ $note->content }}','{{ $note->id }}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
-                                    Show
-                                </button>
+            @if($msg->isEmpty())
+                <p id='lackNotes'>Your notes will be showed here!</p>                   
+            @else
+                <div class="row" data-masonry='{"percentPosition": true }'>
+                    @foreach ($msg as $note)
+                        <div class="col-sm-4 col-md-3 py-1">
+                            <div class="card border-primary">
+                                <div class="card-body" id="{{ $note->id }}">
+                                    <h3 class="card-title">{{ $note->title }}</h3>
+                                    <p class="card-text">{{ $note->content }}</p>
+                                    <button type="button" onclick="feedModalView('{{ $note->id }}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                        Show
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <!-- Modal note view -->
@@ -47,13 +52,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 id="note-title" class="modal-title text-break" id="noteModalLabel">Modal title</h5>
-                    <button type="button" onclick="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="note-body" class="modal-body text-break">
                     ...
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="removeNote()">Delete</button>
                     <button type="button" onclick="editText()" class="btn btn-primary">Edit</button>
                     </div>
                 </div>
@@ -103,7 +108,7 @@
                 <use xlink:href="#plus">
             </svg>
         </a>
-        <a href="">
+        <a href="/logout">
             <svg>
                 <use xlink:href="#logout">
             </svg>
@@ -178,26 +183,27 @@
         $(this).height("auto").height($(this)[0].scrollHeight);
     });
     
-    function feedModalView(title, content, noteId){
+    function feedModalView(noteId){
         _noteId = noteId;
-        console.log(content);
+        var title = $('#' + noteId).find(".card-title").text();
+        var content = $('#' + noteId).find(".card-text").text();
         $("#note-title").text(title); 
         $("#note-body").text(content);
     }
 
-    jQuery.fn.changeTag = function (newTag) {
-        var q = this;
-        this.each(function (i, el) {
-            var h = "<" + el.outerHTML.replace(/(<\w+|\w+>)/g, newTag) + ">";
-            try {
-                el.outerHTML = h;
-            } catch (e) {
-                q[i] = jQuery(h)[0];
+    function removeNote(){
+        $.ajax("/notes", {
+            type: 'DELETE',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json',
+            data: {
+                noteId: _noteId,
+            },
+            success:function(data) {
+                location.reload();
             }
-
         });
-        return this;
-    };
+    }
 
     function showCreateNote() {
         $("#noteArea").height("initial");

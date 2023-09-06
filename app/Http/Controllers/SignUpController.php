@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\SignUpRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Note;
+
 
 class SignUpController extends Controller
 {
@@ -34,7 +37,7 @@ class SignUpController extends Controller
         $user = User::create(request(['email', 'password']));
         
         auth()->login($user);
-        
-        return redirect()->to('notes');
+
+        return redirect('/notes');
     }
 }

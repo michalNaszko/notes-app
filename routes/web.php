@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\NoteController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\Note;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +24,22 @@ Route::get('/', [SignInController::class, 'show']);
 Route::post('/', [SignInController::class, 'signIn']);
 
 Route::get('/notes', function () {
-    return view('notes');
+    return view('notes', ['msg' => Note::where('user_id', Auth::id())->get()]);
 })->middleware('auth');
 
 Route::post('/notes', [NoteController::class, 'create']);
+Route::delete('/notes', [NoteController::class, 'delete']);
 
 Route::get('/signup', [SignUpController::class, 'show']);
 Route::post('/signup', [SignUpController::class, 'signup']);
+
+Route::get('/logout', function (Request $request) {
+    Auth::logout();
+ 
+    $request->session()->invalidate();
+ 
+    $request->session()->regenerateToken();
+ 
+    return redirect('/');
+});
 

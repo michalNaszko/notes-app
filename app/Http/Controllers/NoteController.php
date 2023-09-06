@@ -28,6 +28,16 @@ class NoteController extends Controller
             $note->save();
         }
         
-        return view('notes', ['msg' => Note::where('user_id', Auth::id())->get()]);
+        return redirect('/notes');
+    }
+
+    /**
+     * Delete note from the database.
+     */
+    public function delete(Request $request)
+    {
+        Note::where('id', (int)$request->noteId)->delete();
+
+        return response()->json(["success"=>"Your message"]);
     }
 }

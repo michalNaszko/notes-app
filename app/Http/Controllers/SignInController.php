@@ -52,7 +52,6 @@ class SignInController extends Controller
      */
     protected function authenticated(Request $request, $user) 
     {
-        return view('notes', ['msg' => Note::where('user_id', Auth::id())->get()]);
-        // return redirect()->to('notes')->with('msg', Note::all());
+        return redirect('/notes');
     }
 }
