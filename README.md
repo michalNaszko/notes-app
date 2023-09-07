@@ -1,4 +1,5 @@
 # notes-app
+This app was created to learn basic Laravel concepts.
 ## Functionalities 
 * Registration/Login
 * Adding/removing notes
